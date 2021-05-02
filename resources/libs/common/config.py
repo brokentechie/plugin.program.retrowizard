@@ -291,33 +291,28 @@ class Config:
             return xbmcaddon.Addon(id).setSetting(key, value)
         except:
             return False
-
+    
     def open_settings(self, id=None, cat=None, set=None, activate=False):
         offset = [(100,  200), (-100, -80)]
-        if not id:
+        if id is not None:
             id = self.ADDON_ID
-
         try:
             xbmcaddon.Addon(id).openSettings()
         except:
             import logging
-            logging.log('Cannot open settings for {}'.format(id), level=xbmc.LOGERROR)
-        
+            logging.log('Cannot open settings for {}'.format(id), level=xbmc.LOGERROR)    
         if int(self.KODIV) < 18:
             use = 0
         else:
             use = 1
-
         if cat is not None:
             category_id = cat + offset[use][0]
             xbmc.executebuiltin('SetFocus({})'.format(category_id))
             if set is not None:
                 setting_id = set + offset[use][1]
-                xbmc.executebuiltin('SetFocus({})'.format(setting_id))
-                
+                xbmc.executebuiltin('SetFocus({})'.format(setting_id))          
                 if activate:
                     xbmc.executebuiltin('SendClick({})'.format(setting_id))
-            
 
     def clear_setting(self, type):
         build = {'buildname': '', 'buildversion': '', 'buildtheme': '',
